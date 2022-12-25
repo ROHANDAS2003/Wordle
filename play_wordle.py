@@ -8,7 +8,7 @@ def main():
     wordle = Wordle("APPLE")
 
     while wordle.can_attempt:
-        x = input("Type our guess:  ")
+        x = input("\nType our guess:  ")
 
         if len(x) != wordle.WORD_LENGTH:
             print(Fore.RED + f"Word must be {wordle.WORD_LENGTH} characters long!" + Fore.RESET)
@@ -24,10 +24,16 @@ def main():
 
 
 def displa_results(wordle: Wordle):
+    print("\nYour results so far:\n")
     for word in wordle.attempts:
         result = wordle.guess(word)
         colored_result_str = convert_result_to_color(result)
         print(colored_result_str)
+
+    for _ in range(wordle.remining_attempts):
+        print("_ " * wordle.WORD_LENGTH)
+    
+    print(f"\nYou have {wordle.remining_attempts} attempts remaining.\n")
 
 
 def convert_result_to_color(result: List[LetterState]):
@@ -41,7 +47,7 @@ def convert_result_to_color(result: List[LetterState]):
             color = Fore.WHITE
         colored_letter = color + letter.character + Fore.RESET
         result_with_color.append(colored_letter)
-    return "".join(result_with_color)
+    return " ".join(result_with_color)
 
 if __name__ == "__main__":
     main()
