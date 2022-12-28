@@ -2,13 +2,16 @@ from typing import List
 from letter_state import LetterState
 from wordle import Wordle
 from colorama import Fore
+import random
 
 def main():
-    print("Hello world!!!")
-    wordle = Wordle("APPLE")
+    word_set = load_word_set("data/wordle_words.txt")
+    secret = random.choice(list(word_set))
+    wordle = Wordle(secret)
 
     while wordle.can_attempt:
-        x = input("\nType our guess:  ")
+        x = input("\nType your guess:  ")
+        x = x.upper()
 
         if len(x) != wordle.WORD_LENGTH:
             print(Fore.RED + f"Word must be {wordle.WORD_LENGTH} characters long!" + Fore.RESET)
@@ -20,11 +23,21 @@ def main():
     if wordle.is_solved:
         print("You've solved the puzzle.")
     else:
-        print("You failed to solve the puzzle!")
+        print("You failed to solve the puzzle!\n\n")
+        print("The secret word was: " + Fore.GREEN + f"{wordle.secret}\n\n" + Fore.RESET)
+
+
+def load_word_set(path: str):
+    word_set = set()
+    with open(path, "r") as f:
+        for line in f.readlines():
+            word = line.strip().upper()
+            word_set.add(word)
+    return word_set
 
 
 def display_results(wordle: Wordle):
-    print("\nYour results so far...")
+    print("Your results so far...")
 
     lines = []
 
@@ -38,7 +51,7 @@ def display_results(wordle: Wordle):
 
     draw_border_around(lines)
 
-    print(f"You have {wordle.remaining_attempts} attempts remaining.\n")
+    print(f"You have {wordle.remaining_attempts} attempts remaining.")
 
 
 def convert_result_to_color(result: List[LetterState]):
