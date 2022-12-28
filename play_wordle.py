@@ -15,25 +15,30 @@ def main():
             continue
 
         wordle.attempt(x)
-        displa_results(wordle)
+        display_results(wordle)
         
-    if Wordle.is_solved:
-        print("You've guessed it right!!!")
+    if wordle.is_solved:
+        print("You've solved the puzzle.")
     else:
         print("You failed to solve the puzzle!")
 
 
-def displa_results(wordle: Wordle):
-    print("\nYour results so far:\n")
+def display_results(wordle: Wordle):
+    print("\nYour results so far...")
+
+    lines = []
+
     for word in wordle.attempts:
         result = wordle.guess(word)
         colored_result_str = convert_result_to_color(result)
-        print(colored_result_str)
+        lines.append(colored_result_str)
 
-    for _ in range(wordle.remining_attempts):
-        print("_ " * wordle.WORD_LENGTH)
-    
-    print(f"\nYou have {wordle.remining_attempts} attempts remaining.\n")
+    for _ in range(wordle.remaining_attempts):
+        lines.append(" ".join(["_"] * wordle.WORD_LENGTH))
+
+    draw_border_around(lines)
+
+    print(f"You have {wordle.remaining_attempts} attempts remaining.\n")
 
 
 def convert_result_to_color(result: List[LetterState]):
@@ -48,6 +53,22 @@ def convert_result_to_color(result: List[LetterState]):
         colored_letter = color + letter.character + Fore.RESET
         result_with_color.append(colored_letter)
     return " ".join(result_with_color)
+
+
+
+def draw_border_around(lines: List[str], size: int = 9, pad: int = 1):
+
+    content_length = size + pad * 2
+    top_border = "┌" + "─" * content_length + "┐"
+    bottom_border = "└" + "─" * content_length + "┘"
+    space = " " * pad
+    print(top_border)
+
+    for line in lines:
+        print("│" + space + line + space + "│")
+
+    print(bottom_border)
+
 
 if __name__ == "__main__":
     main()
