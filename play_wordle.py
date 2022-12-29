@@ -17,7 +17,7 @@ def main():
             print(Fore.BLUE + "\t\tHow to play Wordle:\n\n" + Fore.RESET)
             print("The wordle itself will think of a 5 letter " + Fore.GREEN + "SECRET WORD\n" + Fore.RESET)
             print("You have only " + Fore.BLUE + "6 CHANCE" + Fore.RESET + " to guess that word\n")
-            print("Once ou guess a word Wordle you give some hints on the basis of our guess\n")
+            print("Once you guess a word Wordle will provide you some hints on the basis of our guess\n")
             print("\tIf the letter is in word it will highlight it with " + Fore.YELLOW + "YELLO COLOR\n" + Fore.RESET)
             print("\tIf the letter is in word and also in correct place it will highlight it with " + Fore.GREEN + "GREEN COLOR\n" + Fore.RESET)
             print("The word you guess should be a 5 letter valid word containing only english alphabets.\n\n")
