@@ -3,14 +3,41 @@ from letter_state import LetterState
 from wordle import Wordle
 from colorama import Fore
 import random
+import os
 
 def main():
+    while True:
+        os.system('cls')
+        print(Fore.BLUE + "\n\n<==== ||_Welcome to Wordle game_|| ====>" + Fore.RESET)
+        print("\n\n0. How to play \n1. Play\n2. Exit")
+        choice = int(input(":  "))
+
+        if choice == 0:
+            os.system('cls')
+            print(Fore.BLUE + "\t\tHow to play Wordle:\n\n" + Fore.RESET)
+            print("The wordle itself will think of a 5 letter " + Fore.GREEN + "SECRET WORD\n" + Fore.RESET)
+            print("You have only " + Fore.BLUE + "6 CHANCE" + Fore.RESET + " to guess that word\n")
+            print("Once ou guess a word Wordle you give some hints on the basis of our guess\n")
+            print("\tIf the letter is in word it will highlight it with " + Fore.YELLOW + "YELLO COLOR\n" + Fore.RESET)
+            print("\tIf the letter is in word and also in correct place it will highlight it with " + Fore.GREEN + "GREEN COLOR\n" + Fore.RESET)
+            print("The word you guess should be a 5 letter valid word containing only english alphabets.\n\n")
+            input("Press any key to continue:  ")
+        if choice == 1:
+            play()
+        if choice == 2:
+            exit()
+
+
+def play():
+    os.system('cls')
     word_set = load_word_set("data/wordle_words.txt")
     secret = random.choice(list(word_set))
     wordle = Wordle(secret)
 
+    print(f"\nYou have {wordle.remaining_attempts} attempts remaining.")
+
     while wordle.can_attempt:
-        x = input("\nType your guess:  ")
+        x = input(Fore.BLUE + "\nType your guess:  " + Fore.RESET)
         x = x.upper()
 
         if len(x) != wordle.WORD_LENGTH:
@@ -29,10 +56,24 @@ def main():
         display_results(wordle)
         
     if wordle.is_solved:
-        print("You've solved the puzzle.")
+        print("\nYou've solved the puzzle.\n")
+
+        again = input("Want to play agian [y/n]:  ")
+
+        if again == "y" or again == "yes":
+            play()
+        else:
+            exit()
     else:
-        print("You failed to solve the puzzle!\n\n")
-        print("The secret word was: " + Fore.GREEN + f"{wordle.secret}\n\n" + Fore.RESET)
+        print("\nYou failed to solve the puzzle!")
+        print("The secret word was: " + Fore.GREEN + f"{wordle.secret}\n" + Fore.RESET)
+
+        again = input("Want to play agian [y/n]:  ")
+
+        if again == "y" or again == "yes":
+            play()
+        else:
+            exit()
 
 
 def load_word_set(path: str):
